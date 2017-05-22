@@ -1,4 +1,4 @@
-JFLAGS =
+JFLAGS = -g
 JC = javac
 .SUFFIXES: .java .class
 .java.class:
