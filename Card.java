@@ -15,6 +15,7 @@ public class Card implements Comparable<Card> {
         }        
     }
 
+    @Override
     public String toString() {
         String output = "";
         switch (number) {
@@ -29,6 +30,7 @@ public class Card implements Comparable<Card> {
         return output + unicode;
     }
 
+    @Override
     public int compareTo(Card card) {
         if (number != card.number) {
             return number - card.number;            
@@ -47,5 +49,14 @@ public class Card implements Comparable<Card> {
         }
 
         return output;
+    }
+
+    // Cards shouldn't be modifiable
+    public String getSuite() {
+        return suite;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }
