@@ -9,7 +9,10 @@ CLASSES = \
 		Game.java	\
 		Deck.java	\
 		Card.java	\
-		Table.java
+		Table.java	\
+		Player.java \
+		Human.java	\
+		Robot.java
 
 default: classes
 

@@ -20,4 +20,8 @@ public class Piquet {
 
         //        game.end();
     }
+
+    public static void pause() {
+        input.nextLine();
+    }
 }
