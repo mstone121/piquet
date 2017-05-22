@@ -11,9 +11,9 @@ public class Piquet {
         Game game = new Game(name);
         game.cut();
 
-        for (int round = 1; round <= 6; ++round) {
-            //            game.deal();
-            //            game.exchange();
+        for (int partie = 1; partie <= 6; ++partie) {
+            game.deal();
+            game.exchange();
             //            game.declaration();
             //            game.play();            
         }
