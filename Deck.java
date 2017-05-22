@@ -15,12 +15,17 @@ public class Deck {
         }
     }
 
+    // Yates-Fisher
     public void shuffle() {
         for(int i = 0; i < cards.size(); i++) {
             Card temp = cards.get(i);
             int j = ThreadLocalRandom.current().nextInt(i, cards.size());
+
             cards.add(i, cards.get(j));
+            cards.remove(i + 1);
+
             cards.add(j, temp);
+            cards.remove(j + 1);
         }
     }
 
