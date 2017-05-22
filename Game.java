@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Game {
     private String  name;
     private boolean humanFirst;
@@ -10,6 +12,8 @@ public class Game {
 
     private Player yungr; // Alignment > Spelling
     private Player elder;
+
+    private ArrayList<Card> talon;
 
     public Game(String name) {
         this.name  = name;
@@ -42,5 +46,24 @@ public class Game {
         deck.push(humanCard);
 
         Piquet.pause();
+    }
+
+    public void deal() {
+        for (int i = 0; i < 12; i++) {
+            System.out.println("i: " + i);
+            System.out.println("c: " + deck.size());
+            elder.add(deck.pop());
+            yungr.add(deck.pop());
+        }
+
+        talon = new ArrayList<Card>();
+        while (deck.size() > 0) {
+            talon.add(deck.pop());
+        }
+    }
+
+    public void exchange() {
+        talon = elder.exchange(talon);
+        talon = yungr.exchange(talon);
     }
 }
