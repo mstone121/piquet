@@ -36,4 +36,8 @@ public class Deck {
     public void push(Card card) {
         cards.add(card);
     }
+
+    public int size() {
+        return cards.size();
+    }
 }
