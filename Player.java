@@ -1,12 +1,6 @@
 import java.util.ArrayList;
 
-interface PlayerInterface {
-    public ArrayList<Card> exchange(ArrayList<Card> talon);
-
-    public void add(Card card);
-}
-
-abstract class Player implements PlayerInterface {
+abstract class Player {
     public ArrayList<Card> hand;
     public Integer score;
     public Integer total;
