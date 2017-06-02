@@ -13,7 +13,7 @@ class Human extends Player {
             table.addHandCard(card);
         }
 
-        table.setMessage('Select Exchange', true);
+        table.setMessage("Select Exchange", true);
         Piquet.pause();
 
         return talon;
