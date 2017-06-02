@@ -7,12 +7,7 @@ public class Card implements Comparable<Card> {
         this.suite  = suite;
         this.number = number;
 
-        switch (suite) {
-            case "clubs"   : unicode = "\u2663"; break;
-            case "diamonds": unicode = "\u2666"; break;
-            case "hearts"  : unicode = "\u2665"; break;
-            case "spades"  : unicode = "\u2660"; break;
-        }        
+        unicode = Piquet.unicodes.get(suite);
     }
 
     @Override
