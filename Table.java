@@ -1,8 +1,8 @@
-import java.util.TreeMap;
-import java.util.Map;
+import java.util.*;
 
 public class Table {
-    private static final Map<String, Character[]> keys;
+
+    public static final Map<String, Character[]> keys;
     static {
         keys = new TreeMap<String, Character[]>();
         keys.put("clubs",    new Character[] {'1', '2', '3', '4', '5', '6', '7', '8'});
@@ -11,7 +11,49 @@ public class Table {
         keys.put("spades",   new Character[] {'z', 'x', 'c', 'v', 'b', 'n', 'm', ','});
     }
 
-    private Map<String, Integer> suiteCounts;
+    private class Hand {
+
+        private String suite;
+        private String unicode;
+        private ArrayList<Card> cards;
+
+        public Hand(String suite) {
+            this.suite = suite;
+
+            unicode = Piquet.unicodes.get(suite);
+
+            cards = new ArrayList<Card>();
+        }
+
+        public void addCard(Card card) {
+            cards.add(card);
+            Collections.sort(cards);
+        }
+
+        public void removeCard(Card card) {
+            cards.remove(card);
+            Collections.sort(cards);
+        }
+
+        public String cardString() {
+            String output = "|" + unicode;
+            for (Card card : cards) {
+                output += card.toString() + "|";
+            }
+
+            return output;
+        }
+
+        public String keyString() {
+            String output = "| ";
+
+            for (int i = 0; i < cards.size(); i++) {
+                output += " " + Table.keys.get(suite)[i] + "  ";
+            }
+
+            return output;
+        }
+    }
 
     private String[] template = new String[] {
         "*---Piquet---*",
@@ -29,12 +71,16 @@ public class Table {
         "| "
     };
 
+    private Hand clubs;
+    private Hand diamonds;
+    private Hand hearts;
+    private Hand spades;
+
     public Table() {
-        suiteCounts = new TreeMap<String, Integer>();
-        suiteCounts.put("clubs",    0);
-        suiteCounts.put("diamonds", 0);
-        suiteCounts.put("hearts",   0);
-        suiteCounts.put("spades",   0);
+        clubs =    new Hand("clubs");
+        diamonds = new Hand("diamonds");
+        hearts =   new Hand("hearts");
+        spades =   new Hand("spades");
 
         redrawTable();
     }
@@ -64,22 +110,25 @@ public class Table {
     }
 
     public void addHandCard(Card card) {
-        int row = -1;
         switch (card.getSuite()) {
-            case "clubs"   : row = 5; break;
-            case "diamonds": row = 7; break;
-            case "hearts"  : row = 9; break;
-            case "spades"  : row = 11; break;
+            case "clubs":    clubs.addCard(card);    break;
+            case "diamonds": diamonds.addCard(card); break;
+            case "hearts":   hearts.addCard(card);   break;
+            case "spades":   spades.addCard(card);   break;
         }
 
-        String suiteRow = getRow(row);
-        updateRow(row, suiteRow + card.toString() + '|');
+        redrawTable();
+    }
 
-        updateRow(row + 1, "| ");
-        addSuiteCard(card.getSuite());
-        for (int i = 0; i < suiteCounts.get(card.getSuite()); i++) {
-            updateRow(row + 1, getRow(row + 1) + "  " + keys.get(card.getSuite())[i] + " ");
+    public void removeHandCard(Card card) {
+        switch (card.getSuite()) {
+            case "clubs":    clubs.removeCard(card);    break;
+            case "diamonds": diamonds.removeCard(card); break;
+            case "hearts":   hearts.removeCard(card);   break;
+            case "spades":   spades.removeCard(card);   break;
         }
+
+        redrawTable();
     }
 
     private void updateRow(int row, String message) {
@@ -96,16 +145,20 @@ public class Table {
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
+        template[5] = clubs.cardString();
+        template[6] = clubs.keyString();
+
+        template[7] = diamonds.cardString();
+        template[8] = diamonds.keyString();
+
+        template[9] = hearts.cardString();
+        template[10] = hearts.keyString();
+
+        template[11] = spades.cardString();
+        template[12] = spades.keyString();
+
         for (String line : template) {
             System.out.println(line);
         }
-    }
-
-    private void addSuiteCard(String suite) {
-        suiteCounts.put(suite, suiteCounts.get(suite) + 1);
-    }
-
-    private void removeSuiteCard(String suite) {
-        suiteCounts.put(suite, suiteCounts.get(suite) - 1);
     }
 }
